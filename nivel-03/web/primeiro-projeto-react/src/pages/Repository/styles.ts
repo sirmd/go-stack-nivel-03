@@ -131,6 +131,9 @@ export const Issues = styled.div`
         margin-top: 4px;
       }
     }
+    svg {
+      margin-left: auto;
+      color: #cbcbd6;
+    }
   }
-
 `;
