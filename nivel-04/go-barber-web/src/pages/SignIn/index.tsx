@@ -17,11 +17,10 @@ const SignIn = () => {
       // Seta os erros como vazio antes de iniciar, pois ao ter sucesso acaba não removendo o último erro do form
       formRef.current?.setErrors({});
       const schema = Yup.object().shape({
-        name: Yup.string().required('O nome é obrigatório'),
         email: Yup.string()
           .required('O e-mail é obrigatório')
           .email('Digite um e-mail válido'),
-        password: Yup.string().min(6, 'A senha deve ter no mínimo 6 dígitos'),
+        password: Yup.string().required('A senha é obrigatória'),
       });
 
       await schema.validate(data, { abortEarly: false });
@@ -37,7 +36,7 @@ const SignIn = () => {
     <Container>
       <Content>
         <img src={logo} alt="GoBarber" />
-        <Form onSubmit={() => {}}>
+        <Form ref={formRef} onSubmit={handleSubmit}>
           <h1>Faça seu Logon</h1>
 
           <Input icon={FiMail} name="email" placeholder="E-mail" />
