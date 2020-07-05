@@ -10,7 +10,7 @@ import Input from '../../components/Input/index';
 import Button from '../../components/Button/index';
 import logo from '../../assets/logo.svg';
 import getValidationErrors from '../../utils/getValidationErrors';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../hooks/AuthContext';
 
 interface SignInFormData {
   email: string;
@@ -68,7 +68,7 @@ const SignIn = () => {
           <a href="forgot">Esqueci minha senha</a>
         </Form>
 
-        <a href="">
+        <a href="criar-conta">
           <FiLogIn />
           Criar conta
         </a>
