@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable @typescript-eslint/ban-types */
-import React, { useContext, useRef, useCallback } from 'react';
+import React, { useRef, useCallback } from 'react';
 import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
@@ -10,7 +10,7 @@ import Input from '../../components/Input/index';
 import Button from '../../components/Button/index';
 import logo from '../../assets/logo.svg';
 import getValidationErrors from '../../utils/getValidationErrors';
-import { AuthContext } from '../../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
 interface SignInFormData {
   email: string;
@@ -19,9 +19,7 @@ interface SignInFormData {
 
 const SignIn = () => {
   const formRef = useRef<FormHandles>(null);
-  const { user, signIn } = useContext(AuthContext);
-
-  console.log(user);
+  const { signIn } = useAuth();
 
   const handleSubmit = useCallback(
     async (data: SignInFormData): Promise<void> => {
