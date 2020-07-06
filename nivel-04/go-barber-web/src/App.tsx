@@ -5,12 +5,14 @@ import GlobalStyle from './styles/global';
 import SignIn from './pages/SignIn/index';
 import SignUp from './pages/SignUp/index';
 import { AuthProvider } from './hooks/AuthContext';
+import ToastContainer from './components/ToastContainer/index';
 
 const App = () => (
   <>
     <AuthProvider>
       <SignIn />
     </AuthProvider>
+    <ToastContainer />
     <GlobalStyle />
   </>
 );
