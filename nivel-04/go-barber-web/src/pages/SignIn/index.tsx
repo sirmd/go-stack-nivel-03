@@ -11,6 +11,7 @@ import Button from '../../components/Button/index';
 import logo from '../../assets/logo.svg';
 import getValidationErrors from '../../utils/getValidationErrors';
 import { useAuth } from '../../hooks/AuthContext';
+import { useToast } from '../../hooks/ToastContext';
 
 interface SignInFormData {
   email: string;
@@ -20,6 +21,7 @@ interface SignInFormData {
 const SignIn = () => {
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
+  const { addToast } = useToast();
 
   const handleSubmit = useCallback(
     async (data: SignInFormData): Promise<void> => {
@@ -45,9 +47,15 @@ const SignIn = () => {
 
           formRef.current?.setErrors(errors);
         }
+        await addToast({
+          type: 'error',
+          title: 'Erro na autenticação',
+          description:
+            'Ocorreu um erro ao fazer login, verifique o usuário/senha.',
+        });
       }
     },
-    [signIn],
+    [signIn, addToast],
   );
 
   return (
