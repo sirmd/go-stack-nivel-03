@@ -1,17 +1,17 @@
 /* eslint-disable react/no-children-prop */
 /* eslint-disable no-restricted-globals */
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import GlobalStyle from './styles/global';
-import SignIn from './pages/SignIn/index';
-import SignUp from './pages/SignUp/index';
+import Routes from './routes';
 import AppProvider from './hooks/index';
 
 const App = () => (
-  <>
+  <Router>
     <AppProvider>
-      <SignIn />
+      <Routes />
     </AppProvider>
     <GlobalStyle />
-  </>
+  </Router>
 );
 export default App;
