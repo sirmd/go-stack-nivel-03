@@ -19,7 +19,7 @@ interface SignInFormData {
   password: string;
 }
 
-const SignIn = () => {
+const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { signIn } = useAuth();
   const { addToast } = useToast();
