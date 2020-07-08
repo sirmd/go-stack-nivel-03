@@ -20,7 +20,7 @@ export const Content = styled.div`
 const appearFromRight = keyframes`
   from {
     opacity: 0;
-    transform: translateX(50px);
+    transform: translateX(100px);
   }
   to {
     opacity: 1;
@@ -61,7 +61,7 @@ export const AnimationContainer = styled.div`
   /* Somente aplica ao 'a' dentro de Content, não sobrescreve o 'a' do form*/
   > a {
     color: #ff9000;
-    margin-top: 4px;
+    margin-top: 0;
     text-decoration: none;
     transition: color 0.2s;
     display: flex;
