@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useImperativeHandle, forwardRef } from 'react';
 import { Container, TextInput, InputIcon } from './styles';
 import { TextInputProps } from 'react-native';
 import { useField } from '@unform/core';
@@ -14,7 +14,13 @@ interface InputValueReference {
   value: string;
 }
 
-const Input: React.FC<InputProps> = ({ name, icon, ...rest }) => {
+interface InputRef {
+  focus(): void
+}
+
+// 'ref' serve para passar uma referência ao input quando, por exemplo, for necessário
+// mudar o foco para outro campo e o tipo do input deixa de ser React.FC e passa a ser React.RefForwardingComponent
+const Input: React.RefForwardingComponent<InputRef, InputProps> = ({ name, icon, ...rest }, ref) => {
   const inputElementRef = useRef<any>(null);
   // Faz o registro do input no unform
   const { registerField, defaultValue = '', fieldName, error } = useField(name);
@@ -22,6 +28,13 @@ const Input: React.FC<InputProps> = ({ name, icon, ...rest }) => {
   // Cria a referência para o input
   const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
 
+  // É preciso usar esse hook devido ao return já conter uma propriedade chamada 'ref', dessa forma,
+  // o elemento que passou o ref, irá receber o focus
+  useImperativeHandle(ref, () => ({
+    focus() {
+      inputElementRef.current.focus();
+    }
+  }));
 
   useEffect(() => {
     registerField<string>({
@@ -48,6 +61,7 @@ const Input: React.FC<InputProps> = ({ name, icon, ...rest }) => {
   return (<Container >
     <InputIcon name={icon} size={20} color="#666360" />
     <TextInput
+      ref={inputElementRef}
       keyboardAppearance="dark" // muda o tema do teclado
       defaultValue={defaultValue}
       placeholderTextColor="#666360"
@@ -59,4 +73,4 @@ const Input: React.FC<InputProps> = ({ name, icon, ...rest }) => {
 
 };
 
-export default Input;
+export default forwardRef(Input);

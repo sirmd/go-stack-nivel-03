@@ -1,4 +1,5 @@
 import React, { useCallback, useRef } from 'react';
+import { TextInput } from 'react-native';
 import {
   Image,
   KeyboardAvoidingView,
@@ -28,6 +29,7 @@ const SignIn: React.FC = () => {
 
   // useRef serve para manipular um evento de uma forma direta e não por algum evento que ocorra
   const formRef = useRef<FormHandles>(null);
+  const passwordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
 
   const handleSignIn = useCallback((data: object) => {
@@ -50,8 +52,33 @@ const SignIn: React.FC = () => {
               <Title>Faça seu login</Title>
             </View>
             <Form ref={formRef} onSubmit={handleSignIn} style={{ width: '100%' }}>
-              <Input name="mail" icon="mail" placeholder="E-mail" />
-              <Input name="password" secureTextEntry icon="lock" placeholder="Senha" />
+              <Input
+                name="mail"
+                icon="mail"
+                placeholder="E-mail"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="email-address"
+
+                // O botão return muda para um botão que mudará o foco ao próximo campo
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  passwordInputRef.current?.focus();
+                }}
+              />
+
+              <Input
+                ref={passwordInputRef}
+                name="password"
+                secureTextEntry
+                icon="lock"
+                placeholder="Senha"
+
+                // returnKeyType = 'send' envia o form caso o onSubmitEditing tenha uma função
+                returnKeyType="send"
+                onSubmitEditing={() => formRef.current?.submitForm()}
+              />
+
               <Button onPress={() => { formRef.current?.submitForm(); }}>Entrar</Button>
             </Form>
             <ForgotPassword onPress={() => { }}>
