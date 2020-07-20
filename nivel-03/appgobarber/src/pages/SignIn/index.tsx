@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import {
   Image,
   KeyboardAvoidingView,
@@ -17,6 +17,8 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import logoImg from '../../assets/logo.png';
 import Icon from 'react-native-vector-icons/Feather';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/mobile';
 
 import Input from '../../components/input';
 import Button from '../../components/button';
@@ -24,7 +26,13 @@ import Button from '../../components/button';
 
 const SignIn: React.FC = () => {
 
+  // useRef serve para manipular um evento de uma forma direta e não por algum evento que ocorra
+  const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
+
+  const handleSignIn = useCallback((data: object) => {
+    console.log(data);
+  }, [])
 
   return (
     <>
@@ -41,9 +49,11 @@ const SignIn: React.FC = () => {
             <View>
               <Title>Faça seu login</Title>
             </View>
-            <Input name="mail" icon="mail" placeholder="E-mail" />
-            <Input name="password" secureTextEntry icon="lock" placeholder="Senha" />
-            <Button onPress={() => { console.log('ops') }}>Entrar</Button>
+            <Form ref={formRef} onSubmit={handleSignIn} style={{ width: '100%' }}>
+              <Input name="mail" icon="mail" placeholder="E-mail" />
+              <Input name="password" secureTextEntry icon="lock" placeholder="Senha" />
+              <Button onPress={() => { formRef.current?.submitForm(); }}>Entrar</Button>
+            </Form>
             <ForgotPassword onPress={() => { }}>
               <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
             </ForgotPassword>
