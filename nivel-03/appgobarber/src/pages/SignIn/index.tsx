@@ -5,7 +5,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   View,
-  ScrollView
+  ScrollView,
+  Alert
 } from 'react-native';
 import {
   Container,
@@ -20,9 +21,15 @@ import logoImg from '../../assets/logo.png';
 import Icon from 'react-native-vector-icons/Feather';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/mobile';
+import * as Yup from 'yup';
 
 import Input from '../../components/input';
 import Button from '../../components/button';
+import getValidationErrors from '../../utils/getValidationErrors';
+interface SignInFormData {
+  email: string;
+  password: string;
+}
 
 
 const SignIn: React.FC = () => {
@@ -32,9 +39,42 @@ const SignIn: React.FC = () => {
   const passwordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
 
-  const handleSignIn = useCallback((data: object) => {
-    console.log(data);
-  }, [])
+  const handleSignIn = useCallback(
+    async (data: SignInFormData): Promise<void> => {
+      try {
+        // Seta os erros como vazio antes de iniciar, pois ao ter sucesso acaba não removendo o último erro do form
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('O e-mail é obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().required('A senha é obrigatória'),
+        });
+
+        await schema.validate(data, { abortEarly: false });
+
+        // signIn({
+        //   email: data.email,
+        //   password: data.password,
+        // });
+
+        // history.push('/dashboard');
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error);
+
+          formRef.current?.setErrors(errors);
+
+          return;
+        }
+
+        Alert.alert(
+          'Erro na autenticação',
+          'Ocorreu um erro ao fazer login, cheque as credenciais');
+      }
+    },
+    [],
+  );
 
   return (
     <>
@@ -53,12 +93,13 @@ const SignIn: React.FC = () => {
             </View>
             <Form ref={formRef} onSubmit={handleSignIn} style={{ width: '100%' }}>
               <Input
-                name="mail"
+                name="email"
                 icon="mail"
                 placeholder="E-mail"
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType="email-address"
+                blurOnSubmit={false}
 
                 // O botão return muda para um botão que mudará o foco ao próximo campo
                 returnKeyType="next"

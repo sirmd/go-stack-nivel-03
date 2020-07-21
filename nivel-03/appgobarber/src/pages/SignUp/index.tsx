@@ -18,10 +18,17 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import logoImg from '../../assets/logo.png';
 import Icon from 'react-native-vector-icons/Feather';
+import * as Yup from 'yup';
 
 import Input from '../../components/input';
 import Button from '../../components/button';
+import getValidationErrors from '../../utils/getValidationErrors';
 
+interface SignUpFormData {
+  name: string;
+  email: string;
+  password: string;
+}
 
 const SignUp: React.FC = () => {
   const emailInputRef = useRef<TextInput>(null);
@@ -30,9 +37,45 @@ const SignUp: React.FC = () => {
 
   const navigation = useNavigation();
 
-  const handleSignUp = useCallback((data: object) => {
-    console.log(data);
-  }, [])
+  const handleSignUp = useCallback(
+    async (data: SignUpFormData): Promise<void> => {
+      try {
+        // Seta os erros como vazio antes de iniciar, pois ao ter sucesso acaba não removendo o último erro do form
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          name: Yup.string().required('O nome é obrigatório'),
+          email: Yup.string()
+            .required('O e-mail é obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().min(6, 'A senha deve ter no mínimo 6 dígitos'),
+        });
+
+        await schema.validate(data, { abortEarly: false });
+
+        await api.post('/users', data);
+
+        // addToast({
+        //   type: 'success',
+        //   title: 'Cadastro realizado com sucesso',
+        //   description: 'Você já pode fazer o seu logon no GoBarber',
+        // });
+
+        // history.push('/');
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(error);
+
+          formRef.current?.setErrors(errors);
+        }
+        // await addToast({
+        //   type: 'error',
+        //   title: 'Erro no cadastro',
+        //   description: 'Ocorreu um erro ao fazer o cadastro.',
+        // });
+      }
+    },
+    [],
+  );
 
   return (
     <>
@@ -56,7 +99,7 @@ const SignUp: React.FC = () => {
                 placeholder="Nome"
 
                 autoCapitalize="words"
-
+                blurOnSubmit={false}
                 returnKeyType="next"
                 onSubmitEditing={() => {
                   emailInputRef.current?.focus();
@@ -68,9 +111,10 @@ const SignUp: React.FC = () => {
                 keyboardType="email-address"
                 autoCorrect={false}
                 autoCapitalize="none"
-                name="mail"
+                name="email"
                 icon="mail"
                 placeholder="E-mail"
+                blurOnSubmit={false}
 
                 returnKeyType="next"
                 onSubmitEditing={() => {
