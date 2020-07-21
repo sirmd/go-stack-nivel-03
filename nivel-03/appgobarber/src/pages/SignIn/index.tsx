@@ -22,6 +22,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/mobile';
 import * as Yup from 'yup';
+import { useAuth } from '../../hooks/auth';
 
 import Input from '../../components/input';
 import Button from '../../components/button';
@@ -38,6 +39,7 @@ const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const passwordInputRef = useRef<TextInput>(null);
   const navigation = useNavigation();
+  const { signIn, user } = useAuth();
 
   const handleSignIn = useCallback(
     async (data: SignInFormData): Promise<void> => {
@@ -53,10 +55,10 @@ const SignIn: React.FC = () => {
 
         await schema.validate(data, { abortEarly: false });
 
-        // signIn({
-        //   email: data.email,
-        //   password: data.password,
-        // });
+        signIn({
+          email: data.email,
+          password: data.password,
+        });
 
         // history.push('/dashboard');
       } catch (error) {
@@ -73,7 +75,7 @@ const SignIn: React.FC = () => {
           'Ocorreu um erro ao fazer login, cheque as credenciais');
       }
     },
-    [],
+    [signIn],
   );
 
   return (
