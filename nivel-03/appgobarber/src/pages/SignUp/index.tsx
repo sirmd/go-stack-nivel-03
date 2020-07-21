@@ -5,7 +5,8 @@ import {
   Platform,
   View,
   ScrollView,
-  TextInput
+  TextInput,
+  Alert
 } from 'react-native';
 import {
   Container,
@@ -23,6 +24,7 @@ import * as Yup from 'yup';
 import Input from '../../components/input';
 import Button from '../../components/button';
 import getValidationErrors from '../../utils/getValidationErrors';
+import api from '../../services/api';
 
 interface SignUpFormData {
   name: string;
@@ -52,7 +54,12 @@ const SignUp: React.FC = () => {
 
         await schema.validate(data, { abortEarly: false });
 
-        // await api.post('/users', data);
+        await api.post('/users', data);
+
+        Alert.alert('Cadastro realizado com sucesso',
+          'Você já pode fazer login na aplicação.');
+
+        navigation.navigate('SignIn');
 
         // addToast({
         //   type: 'success',
