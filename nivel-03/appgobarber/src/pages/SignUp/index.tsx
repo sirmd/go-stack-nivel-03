@@ -4,7 +4,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   View,
-  ScrollView
+  ScrollView,
+  TextInput
 } from 'react-native';
 import {
   Container,
