@@ -1,0 +1,3 @@
+[submodule "desafios/desafio_06"]
+	path = desafios/desafio_06
+	url = https://github.com/sirmd/gostack-desafio-06-database-upload.git
