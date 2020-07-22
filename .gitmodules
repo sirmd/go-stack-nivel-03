@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [submodule "desafios/desafio_06"]
 	path = desafios/desafio_06
 	url = https://github.com/sirmd/gostack-desafio-06-database-upload.git
@@ -22,3 +23,8 @@
 [submodule "primeiros_conceitos"]
 	path = primeiros_conceitos
 	url = https://github.com/sirmd/gostack-nivel-01.git
+=======
+[submodule "backend"]
+	path = backend
+	url = https://github.com/sirmd/go-stack-nivel-02.git
+>>>>>>> gobarber/master
