@@ -1,3 +1,21 @@
 [submodule "desafios/desafio_06"]
 	path = desafios/desafio_06
 	url = https://github.com/sirmd/gostack-desafio-06-database-upload.git
+[submodule "desafios/go-finance"]
+	path = desafios/go-finance
+	url = https://github.com/sirmd/gostack-go-finance.git
+[submodule "desafios/go-marketplace"]
+	path = desafios/go-marketplace
+	url = https://github.com/sirmd/gostack-go-marketplace.git
+[submodule "desafios/desafio_02"]
+	path = desafios/desafio_02
+	url = https://github.com/sirmd/gostack-desafio-fundamentos-nodejs.git
+[submodule "desafios/desafio_03"]
+	path = desafios/desafio_03
+	url = https://github.com/sirmd/gostack-desafio-conceitos-reactjs.git
+[submodule "desafios/desafio_04"]
+	path = desafios/desafio_04
+	url = https://github.com/sirmd/gostack-desafio-conceitos-react-native
+[submodule "desafios/desafio_05"]
+	path = desafios/desafio_05
+	url = https://github.com/sirmd/gostack-desafio-fundamentos-nodejs.git
