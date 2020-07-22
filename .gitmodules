@@ -23,3 +23,6 @@
 	path = primeiros_conceitos
 	url = https://github.com/sirmd/gostack-nivel-01.git
 
+[submodule "gobarber"]
+	path = gobarber
+	url = https://github.com/sirmd/gobarber.git
